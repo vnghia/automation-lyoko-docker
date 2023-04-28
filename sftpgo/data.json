@@ -1,0 +1,114 @@
+{
+  "admins": [
+    {
+      "password": "{{ sftpgo_admin_password }}",
+      "permissions": ["*"],
+      "status": 1,
+      "username": "{{ sftpgo_admin_username }}"
+    },
+    {
+      "filters": {
+        "allow_api_key_auth": true
+      },
+      "password": "{{ sftpgo_api_admin_password }}",
+      "permissions": [
+        "add_users",
+        "edit_users",
+        "del_users",
+        "view_users",
+        "manage_groups",
+        "view_conns",
+        "close_conns",
+        "view_status",
+        "manage_event_rules",
+        "quota_scans",
+        "manage_system",
+        "manage_defender",
+        "view_defender",
+        "retention_checks",
+        "metadata_checks",
+        "view_events"
+      ],
+      "status": 1,
+      "username": "{{ sftpgo_api_admin_username }}"
+    }
+  ],
+  "api_keys": [
+    {
+      "admin": "{{ sftpgo_api_admin_username }}",
+      "id": "{{ sftpgo_api_admin_keyid }}",
+      "key": "{{ sftpgo_api_admin_plainkey }}",
+      "name": "{{ sftpgo_api_admin_username }}",
+      "scope": 1
+    }
+  ],
+  "folders": [
+    {
+      "filesystem": {
+        "provider": 1,
+        "s3config": {
+          "access_secret": {},
+          "bucket": "{{ storage_bucket_name }}",
+          "key_prefix": "%username%/",
+          "region": "{{ storage_bucket_region }}",
+          "role_arn": ""
+        }
+      },
+      "name": "{{ storage_bucket_name }}-user"
+    }
+  ],
+  "groups": [
+    {
+      "name": "Primary",
+      "user_settings": {
+        "home_dir": "/srv/sftpgo/data/%username%/",
+        "permissions": {
+          "/": ["list", "download"],
+          "/cloud": ["list", "download"],
+          "/cloud/s3": ["*"]
+        }
+      },
+      "virtual_folders": [
+        {
+          "name": "{{ storage_bucket_name }}-user",
+          "virtual_path": "/cloud/s3"
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "email": "{{ sftpgo_backup_client_email }}",
+      "groups": [
+        {
+          "name": "Primary",
+          "type": 1
+        }
+      ],
+      "home_dir": "/srv/sftpgo/data/{{ sftpgo_backup_client_username }}/",
+      "password": "{{ sftpgo_backup_client_password }}",
+      "permissions": {
+        "/": ["*"]
+      },
+      "status": 1,
+      "username": "{{ sftpgo_backup_client_username }}"
+    },
+    {
+      "groups": [
+        {
+          "name": "Primary",
+          "type": 1
+        }
+      ],
+      "home_dir": "/srv/sftpgo/data/{{ sftpgo_password_client_username }}/",
+      "password": "{{ sftpgo_password_client_password }}",
+      "permissions": {
+        "/": ["*"],
+        "/cloud/s3": ["list", "download"]
+      },
+      "status": 1,
+      "username": "{{ sftpgo_password_client_username }}"
+    }
+  ],
+  "version": 13
+}

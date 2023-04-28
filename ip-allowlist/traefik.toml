@@ -1,0 +1,15 @@
+[http.routers.ip-allowlist]
+rule = "Host(`{{ ip_allowlist_domain }}`)"
+service = "ip-allowlist"
+middlewares = ["ip-allowlist-auth"]
+
+{% if enable_acme_resolver %}
+[http.routers.ip-allowlist.tls]
+certResolver = "leresolver"
+{% endif %}
+
+[[http.services.ip-allowlist.loadBalancer.servers]]
+url = "http://localhost:{{ ip_allowlist_port }}"
+
+[http.middlewares.ip-allowlist-auth.basicAuth]
+users = ["{{ ip_allowlist_username }}:{{ ip_allowlist_password }}"]

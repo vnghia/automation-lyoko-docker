@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  sftpgo:
+    image: drakkan/sftpgo:v2.4.5
+    network_mode: host
+    restart: always
+    environment:
+      - SFTPGO_LOADDATA_FROM=/tmp/sftpgpo-data.json
+      - SFTPGO_LOADDATA_CLEAN=true
+    env_file:
+      - /{{ docker_compose_root }}/sftpgo/env.d/dataprovider.env
+    volumes:
+      - sftpgo-persistent-data:/srv/sftpgo
+      - sftpgo-persistent-home:/var/lib/sftpgo
+      - /{{ docker_compose_root }}/sftpgo/config.json:/etc/sftpgo/sftpgo.json
+      - /{{ docker_compose_root }}/sftpgo/data.json:/tmp/sftpgpo-data.json
+    depends_on:
+      - postgres
+
+volumes:
+  sftpgo-persistent-data:
+  sftpgo-persistent-home:

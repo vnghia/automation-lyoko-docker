@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  ip-allowlist:
+    build: /{{ docker_compose_root }}/ip-allowlist/
+    network_mode: host
+    restart: always
+    volumes:
+      - traefik-dynamic-configuration:/traefik/

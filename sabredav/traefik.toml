@@ -1,0 +1,16 @@
+[http.routers.sabredav]
+rule = "Host(`{{ sabredav_domain }}`)"
+service = "sabredav"
+middlewares = ["redirect-sabredav-discovery"]
+
+{% if enable_acme_resolver %}
+[http.routers.sabredav.tls]
+certResolver = "leresolver"
+{% endif %}
+
+[[http.services.sabredav.loadBalancer.servers]]
+url = "http://localhost:{{ sabredav_port }}"
+
+[http.middlewares.redirect-sabredav-discovery.redirectRegex]
+regex = "/\\.well-known/(cal|card)dav"
+replacement = "/"

@@ -1,0 +1,69 @@
+[http.routers.sftpgo-admin-web]
+rule = "Host(`{{ sftpgo_admin_domain }}`)"
+service = "sftpgo-admin-web"
+middlewares = [
+  "set-cookie-path-as-root-admin",
+  "rewrite-redirect-admin",
+  "rewrite-path-request-admin",
+  "rewrite-path-response-admin",
+  "ip-allowlist",
+]
+
+[http.routers.sftpgo-client-web]
+rule = "Host(`{{ sftpgo_client_domain }}`)"
+service = "sftpgo-client-web"
+middlewares = [
+  "set-cookie-path-as-root-client",
+  "rewrite-redirect-client",
+  "rewrite-path-request-client",
+  "rewrite-path-response-client",
+]
+
+[http.routers.sftpgo-webdav]
+rule = "Host(`{{ sftpgo_webdav_domain }}`)"
+service = "sftpgo-webdav"
+
+[[http.services.sftpgo-admin-web.loadBalancer.servers]]
+url = "http://localhost:{{ sftpgo_admin_port }}"
+
+[[http.services.sftpgo-client-web.loadBalancer.servers]]
+url = "http://localhost:{{ sftpgo_client_port }}"
+
+[[http.services.sftpgo-webdav.loadBalancer.servers]]
+url = "http://localhost:{{ sftpgo_webdav_port }}"
+
+{% if enable_acme_resolver %}
+[http.routers.sftpgo-webdav.tls]
+certResolver = "leresolver"
+{% endif %}
+
+{% for name in ["admin", "client"] %}
+{% if enable_acme_resolver %}
+[http.routers.sftpgo-{{ name }}-web.tls]
+certResolver = "leresolver"
+{% endif %}
+
+[[http.middlewares.set-cookie-path-as-root-{{ name }}.plugin.rewrite-cookie-path.rewrites]]
+name = "jwt"
+regex = "/web/{{ name }}"
+replacement = "/"
+
+[http.middlewares.rewrite-redirect-{{ name }}.redirectRegex]
+regex = "/web/{{ name }}/(.*)"
+replacement = "/$1"
+
+[http.middlewares.rewrite-path-request-{{ name }}.replacePathRegex]
+regex = "{{ replace_path_regex[name] }}"
+replacement = "/web/{{ name }}/$1"
+
+[http.middlewares.rewrite-path-response-{{ name }}.plugin.rewrite-body]
+lastModified = true
+
+[[http.middlewares.rewrite-path-response-{{ name }}.plugin.rewrite-body.rewrites]]
+regex = "/web/{{ name }}/"
+replacement = "/"
+
+[http.middlewares.rewrite-path-response-{{ name }}.plugin.rewrite-body.monitoring]
+methods = ["GET", "HEAD", "POST", "PUT"]
+types = ["text/html", "text/javascript"]
+{% endfor %}

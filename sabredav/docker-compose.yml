@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  sabredav-php:
+    build: /{{ docker_compose_root }}/sabredav/
+    network_mode: host
+    restart: always
+    volumes:
+      - sabredav-php-src:/sabredav/
+      - sabredav-php-sock:/run/php/
+    depends_on:
+      - postgres
+  sabredav:
+    image: nginx:1.23.4
+    network_mode: host
+    restart: always
+    volumes:
+      - sabredav-php-src:/sabredav/
+      - sabredav-php-sock:/run/php/
+      - /{{ docker_compose_root }}/sabredav/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /{{ docker_compose_root }}/sabredav/init-nginx.sh:/docker-entrypoint.d/init-nginx.sh:ro
+    depends_on:
+      - sabredav-php
+
+volumes:
+  sabredav-php-src:
+  sabredav-php-sock:

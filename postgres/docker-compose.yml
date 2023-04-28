@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  postgres:
+    build: /{{ docker_compose_root }}/postgres/
+    network_mode: host
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "{{ postgres_root_password }}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+      - /{{ docker_compose_root }}/sftpgo/init-db.sh:/docker-entrypoint-initdb.d/sftpgo.sh:ro
+      - /{{ docker_compose_root }}/sabredav/init-db.sh:/docker-entrypoint-initdb.d/sabredav.sh:ro
+
+volumes:
+  postgres-data:

@@ -1,0 +1,36 @@
+[entryPoints.http]
+address = ":80"
+
+[entryPoints.http.http.redirections.entryPoint]
+to = "https"
+scheme = "https"
+permanent = true
+
+[entryPoints.https]
+address = ":443"
+asDefault = true
+
+[entryPoints.https.forwardedHeaders]
+insecure = true
+
+[providers.file]
+directory = "/etc/traefik/traefik.d"
+watch = true
+
+{% if enable_acme_resolver %}
+[certificatesResolvers.leresolver.acme]
+caServer = "{{ acme_ca_server }}"
+email = "{{ acme_email_address }}"
+storage = "/etc/traefik/certs/acme.json"
+
+[certificatesResolvers.leresolver.acme.httpChallenge]
+entryPoint = "http"
+{% endif %}
+
+[experimental.plugins.rewrite-body]
+moduleName = "github.com/packruler/rewrite-body"
+version = "v1.2.0"
+
+[experimental.plugins.rewrite-cookie-path]
+modulename = "github.com/vnghia/traefik-plugin-rewrite-cookie-path"
+version = "v0.0.1"

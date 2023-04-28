@@ -1,3 +1,4 @@
-services = []
-suffixes = []
+services = ["traefik", "postgres", "sftpgo", "sabredav", "ip-allowlist"]
+suffixes = ["toml", "yml", "sh", "json", "conf", "php", "py", "env"]
+filenames = ["Dockerfile"]
 output_dir = "rendered"

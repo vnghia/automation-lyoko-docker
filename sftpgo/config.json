@@ -1,0 +1,99 @@
+{
+  "common": {
+    "defender": {
+      "enabled": true
+    },
+    "proxy_allowed": ["127.0.0.0/8"],
+    "proxy_protocol": 2
+  },
+  "httpd": {
+    "bindings": [
+      {
+        "client_ip_proxy_header": "X-Forwarded-For",
+        "enable_https": false,
+        "enable_rest_api": true,
+        "enable_web_admin": true,
+        "enable_web_client": false,
+        "port": "{{ sftpgo_admin_port }}",
+        "proxy_allowed": ["127.0.0.0/8"],
+        "render_openapi": true
+      },
+      {
+        "client_ip_proxy_header": "X-Forwarded-For",
+        "enable_https": false,
+        "enable_rest_api": false,
+        "enable_web_admin": false,
+        "enable_web_client": true,
+        "port": "{{ sftpgo_client_port }}",
+        "proxy_allowed": ["127.0.0.0/8"],
+        "render_openapi": false
+      }
+    ]
+  },
+  "mfa": {
+    "totp": [
+      {
+        "algo": "sha512",
+        "issuer": "SFTPGo",
+        "name": "SHA512"
+      },
+      {
+        "algo": "sha1",
+        "issuer": "SFTPGo",
+        "name": "SHA1"
+      }
+    ]
+  },
+  "sftpd": {
+    "banner": "",
+    "bindings": [
+      {
+        "address": "",
+        "apply_proxy_config": true,
+        "port": "{{ sftpgo_sftp_port }}"
+      }
+    ],
+    "ciphers": [],
+    "enabled_ssh_commands": [
+      "md5sum",
+      "sha1sum",
+      "sha256sum",
+      "cd",
+      "pwd",
+      "scp"
+    ],
+    "password_authentication": true
+  },
+  "telemetry": {
+    "auth_user_file": "",
+    "bind_address": "127.0.0.1",
+    "bind_port": 0,
+    "certificate_file": "",
+    "certificate_key_file": "",
+    "enable_profiler": false,
+    "min_tls_version": 12,
+    "tls_cipher_suites": []
+  },
+  "webdavd": {
+    "bindings": [
+      {
+        "client_ip_proxy_header": "X-Forwarded-For",
+        "enable_https": false,
+        "min_tls_version": 12,
+        "port": "{{ sftpgo_webdav_port }}",
+        "proxy_allowed": ["127.0.0.0/8"]
+      }
+    ],
+    "cache": {
+      "mime_types": {
+        "custom_mappings": [],
+        "enabled": true,
+        "max_size": 1000
+      },
+      "users": {
+        "expiration_time": 0,
+        "max_size": 50
+      }
+    }
+  }
+}
