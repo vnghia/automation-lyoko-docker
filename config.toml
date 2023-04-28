@@ -1,0 +1,3 @@
+services = []
+suffixes = []
+output_dir = "rendered"

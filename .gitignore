@@ -264,4 +264,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Project specific
+rendered/
+*.auto.vars.json
+
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,windows,linux,macos,direnv
