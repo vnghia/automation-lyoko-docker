@@ -9,7 +9,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - traefik-dynamic-configuration:/etc/traefik/traefik.d/
       - traefik-acme-certs:/etc/traefik/certs/
-      - /{{ docker_compose_root }}/traefik/traefik.toml:/etc/traefik/traefik.toml:ro
+      - /{{ docker_compose_root }}/traefik/static.toml:/etc/traefik/traefik.toml:ro
       - /{{ docker_compose_root }}/sabredav/traefik.toml:/etc/traefik/traefik.d/sabredav.toml:ro
       - /{{ docker_compose_root }}/ip-allowlist/traefik.toml:/etc/traefik/traefik.d/ip-allowlist-server.toml:ro
       - /{{ docker_compose_root }}/sftpgo/traefik.toml:/etc/traefik/traefik.d/sftpgo.toml:ro
