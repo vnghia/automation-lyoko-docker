@@ -1,0 +1,9 @@
+[http.routers.traefik]
+rule = "Host(`{{ traefik_api_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+service = "api@internal"
+middlewares = ["ip-allowlist"]
+
+{% if enable_acme_resolver %}
+[http.routers.traefik.tls]
+certResolver = "leresolver"
+{% endif %}
