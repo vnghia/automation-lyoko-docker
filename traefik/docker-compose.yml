@@ -17,6 +17,7 @@ services:
       - /{{ docker_compose_root }}/sftpgo/traefik.toml:/etc/traefik/traefik.d/sftpgo.toml:ro
       - /{{ docker_compose_root }}/jaegertracing/traefik.toml:/etc/traefik/traefik.d/jaegertracing.toml:ro
       - /{{ docker_compose_root }}/pgweb/traefik.toml:/etc/traefik/traefik.d/pgweb.toml:ro
+      - /{{ docker_compose_root }}/dozzle/traefik.toml:/etc/traefik/traefik.d/dozzle.toml:ro
 
 volumes:
   traefik-dynamic-configuration:

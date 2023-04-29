@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  dozzle:
+    image: amir20/dozzle:v4.10.3
+    network_mode: host
+    restart: always
+    environment:
+      - DOZZLE_ADDR=:{{ dozzle_port }}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

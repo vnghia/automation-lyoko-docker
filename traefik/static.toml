@@ -21,7 +21,6 @@ watch = true
 dashboard = true
 
 [accessLog]
-filePath = "/var/log/traefik/access.log"
 
 [tracing]
 [tracing.jaeger]

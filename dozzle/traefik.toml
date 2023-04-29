@@ -1,0 +1,12 @@
+[http.routers.dozzle]
+rule = "Host(`{{ dozzle_domain }}`)"
+service = "dozzle"
+middlewares = ["ip-allowlist"]
+
+{% if enable_acme_resolver %}
+[http.routers.dozzle.tls]
+certResolver = "leresolver"
+{% endif %}
+
+[[http.services.dozzle.loadBalancer.servers]]
+url = "http://localhost:{{ dozzle_port }}"
