@@ -9,6 +9,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - traefik-dynamic-configuration:/etc/traefik/traefik.d/
       - traefik-acme-certs:/etc/traefik/certs/
+      - traefik-access-log:/var/log/traefik/
       - /{{ docker_compose_root }}/traefik/static.toml:/etc/traefik/traefik.toml:ro
       - /{{ docker_compose_root }}/traefik/dynamic.toml:/etc/traefik/traefik.d/dynamic.toml:ro
       - /{{ docker_compose_root }}/sabredav/traefik.toml:/etc/traefik/traefik.d/sabredav.toml:ro
@@ -18,3 +19,4 @@ services:
 volumes:
   traefik-dynamic-configuration:
   traefik-acme-certs:
+  traefik-access-log:

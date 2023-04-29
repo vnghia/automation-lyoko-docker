@@ -20,6 +20,9 @@ watch = true
 [api]
 dashboard = true
 
+[accessLog]
+filePath = "/var/log/traefik/access.log"
+
 {% if enable_acme_resolver %}
 [certificatesResolvers.leresolver.acme]
 caServer = "{{ acme_ca_server }}"
