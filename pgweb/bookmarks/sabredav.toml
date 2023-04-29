@@ -1,0 +1,6 @@
+host = "localhost"
+port = 5432
+user = "sabredav"
+password = "{{ sabredav_database_password }}"
+database = "sabredav"
+ssl = "disable"

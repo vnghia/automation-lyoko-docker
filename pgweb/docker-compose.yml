@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  pgweb:
+    image: sosedoff/pgweb:0.14.0
+    command:
+      [
+        "/usr/bin/pgweb",
+        "--bind=0.0.0.0",
+        "--listen={{ pgweb_port }}",
+        "--bookmarks-dir",
+        "/etc/pgweb/bookmarks/"
+      ]
+    network_mode: host
+    restart: always
+    volumes:
+      - /{{ docker_compose_root }}/pgweb/bookmarks/sabredav.toml:/etc/pgweb/bookmarks/sabredav.toml
+      - /{{ docker_compose_root }}/pgweb/bookmarks/sftpgo.toml:/etc/pgweb/bookmarks/sftpgo.toml

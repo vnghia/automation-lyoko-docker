@@ -5,7 +5,7 @@ services = [
   "sabredav",
   "ip-allowlist",
   "jaegertracing",
-  "pgadmin",
+  "pgweb",
 ]
 suffixes = ["toml", "yml", "sh", "json", "conf", "php", "py", "env"]
 filenames = ["Dockerfile"]

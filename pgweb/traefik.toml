@@ -1,0 +1,12 @@
+[http.routers.pgweb]
+rule = "Host(`{{ pgweb_domain }}`)"
+service = "pgweb"
+middlewares = ["ip-allowlist"]
+
+{% if enable_acme_resolver %}
+[http.routers.pgweb.tls]
+certResolver = "leresolver"
+{% endif %}
+
+[[http.services.pgweb.loadBalancer.servers]]
+url = "http://localhost:{{ pgweb_port }}"
