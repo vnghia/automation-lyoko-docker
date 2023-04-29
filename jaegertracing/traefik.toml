@@ -1,0 +1,12 @@
+[http.routers.jaegertracing]
+rule = "Host(`{{ traefik_api_domain }}`) && PathPrefix(`/tracing`)"
+service = "jaegertracing"
+middlewares = ["ip-allowlist"]
+
+{% if enable_acme_resolver %}
+[http.routers.jaegertracing.tls]
+certResolver = "leresolver"
+{% endif %}
+
+[[http.services.jaegertracing.loadBalancer.servers]]
+url = "http://localhost:16686"

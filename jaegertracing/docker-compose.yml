@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  jaegertracing:
+    image: jaegertracing/all-in-one:1.44.0
+    network_mode: host
+    restart: always
+    environment:
+      - QUERY_BASE_PATH=/tracing

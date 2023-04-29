@@ -23,6 +23,9 @@ dashboard = true
 [accessLog]
 filePath = "/var/log/traefik/access.log"
 
+[tracing]
+[tracing.jaeger]
+
 {% if enable_acme_resolver %}
 [certificatesResolvers.leresolver.acme]
 caServer = "{{ acme_ca_server }}"
