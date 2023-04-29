@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  pgadmin:
+    image: dpage/pgadmin4:7.0
+    network_mode: host
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL={{ pgadmin_admin_email }}
+      - PGADMIN_DEFAULT_PASSWORD={{ pgadmin_admin_password }}
+      - PGADMIN_LISTEN_PORT={{ pgadmin_port }}
+      - PGADMIN_DISABLE_POSTFIX=false

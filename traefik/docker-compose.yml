@@ -16,6 +16,7 @@ services:
       - /{{ docker_compose_root }}/ip-allowlist/traefik.toml:/etc/traefik/traefik.d/ip-allowlist-server.toml:ro
       - /{{ docker_compose_root }}/sftpgo/traefik.toml:/etc/traefik/traefik.d/sftpgo.toml:ro
       - /{{ docker_compose_root }}/jaegertracing/traefik.toml:/etc/traefik/traefik.d/jaegertracing.toml:ro
+      - /{{ docker_compose_root }}/pgadmin/traefik.toml:/etc/traefik/traefik.d/pgadmin.toml:ro
 
 volumes:
   traefik-dynamic-configuration:
